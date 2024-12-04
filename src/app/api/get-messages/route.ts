@@ -40,7 +40,11 @@ export async function GET(request:Request){
 
 
     } catch (error) {
-        
+        console.log("unexpected error",error)
+        return Response.json({
+            success:false,
+            message:"Not authenticated"
+        },{status:500})
     }
 
 }
