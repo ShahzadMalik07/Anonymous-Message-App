@@ -6,6 +6,7 @@ export async function GET(request: Request) {
     try {
         const { username, code } = await request.json()
         const deCodedUsername = decodeURIComponent(username)
+        console.log(deCodedUsername)
 
         const user = await UserModel.findOne({ username: deCodedUsername })
         if (!user) {
@@ -15,7 +16,7 @@ export async function GET(request: Request) {
             })
         }
 
-        const isCodeValid = user?.verifyCode == code
+        const isCodeValid = user?.verifyCode === code
         // @ts-ignore: Object is possibly 'null'.
         const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date()
 
@@ -46,6 +47,7 @@ export async function GET(request: Request) {
 
 
     } catch (error) {
+        
         console.error("Error verifying user ")
         return Response.json({
             success: false,
