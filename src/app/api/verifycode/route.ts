@@ -1,7 +1,7 @@
 import UserModel from "@/Model/User";
 import DbConnect from "@/lib/DbConnect";
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
     await DbConnect()
     try {
         const { username, code } = await request.json()
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
 
         const user = await UserModel.findOne({ username: deCodedUsername })
         if (!user) {
-            Response.json({
+          return  Response.json({
                 succsess: false,
                 message: "user not found"
             })
@@ -26,19 +26,19 @@ export async function GET(request: Request) {
             user.isVerified = true
             await user?.save()
 
-            Response.json({
+        return    Response.json({
                 succsess: true,
                 message: "Account Verified successfully"
             }, { status: 200 })
 
         } else if (!isCodeNotExpired) {
-            Response.json({
+          return  Response.json({
                 succsess: false,
                 message: "Code has expired, please signup again"
             }, { status: 400 })
 
         } else {
-            Response.json({
+          return  Response.json({
                 succsess: false,
                 message: "Incorrect verification code"
             }, { status: 400 })

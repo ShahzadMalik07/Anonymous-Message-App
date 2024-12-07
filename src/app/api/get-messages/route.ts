@@ -6,7 +6,7 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import mongoose from "mongoose";
 
 
-export async function GET(request:Request){
+export async function GET(request: Request) {
     await DbConnect()
     const session = await getServerSession(authOptions)
     const user: User = session?.user as User
@@ -18,33 +18,40 @@ export async function GET(request:Request){
         }, { status: 401 })
 
     }
-    const userId = new mongoose.Types.ObjectId(user._id)
+    const userId = new mongoose.Types.ObjectId(user._id);
+    console.log(userId)
+    const userfind = await UserModel.findById(userId); // Basic query
+    if (!userfind) {
+        throw new Error('User not found');
+    }
+    console.log('User found:', userfind);
+
     try {
         const user = await UserModel.aggregate([
-            {$match:{id:userId}},
-            {$unwind:"$messages"},
-            {$sort:{"messages.createdAt":-1}},
-            {$group:{_id:"$_id",messages:{$push:"$messages"}}}
-        ])
-        if (!user || user.length ===0) {
+            { $match: { _id: userId } },
+            { $unwind: '$message' },
+            { $sort: { 'message.createdAt': -1 } },
+            { $group: { _id: '$_id', message: { $push: '$message' } } },
+        ]).exec();
+        if (!user || user.length === 0) {
             return Response.json({
-                success:false,
-                message:"User not found"
-            },{status:401})
-            
+                success: false,
+                message: "User not found"
+            }, { status: 401 })
+
         }
         return Response.json({
-            succsess:true,
-            messages: user[0].messages
-        },{status:200})
+            succsess: true,
+            messages: user[0].message
+        }, { status: 200 })
 
 
     } catch (error) {
-        console.log("unexpected error",error)
+        console.log("unexpected error", error)
         return Response.json({
-            success:false,
-            message:"Not authenticated"
-        },{status:500})
+            success: false,
+            message: "Not authenticated"
+        }, { status: 500 })
     }
 
 }

@@ -8,7 +8,7 @@ import { ApiResponse } from "@/types/ApiResponse"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios, { AxiosError } from "axios"
 import { useParams, useRouter } from "next/navigation"
-import {  useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 
@@ -21,20 +21,19 @@ const page = () => {
 
   type verifyFormData = z.infer<typeof verifySchema>
 
-  const form = useForm <verifyFormData> ({
+  const form = useForm<verifyFormData>({
     resolver: zodResolver(verifySchema),
   })
 
-  const onSubmit = async (data:verifyFormData) => {
+  const onSubmit = async (data: verifyFormData) => {
+
     try {
-      const response = await axios.post<ApiResponse>(`api/verifycode`, {
+      const response = await axios.post<ApiResponse>(`/api/verifycode`, {
         username: params.username,
         code: data.code
 
       })
-
       toast({
-
         title: "Success",
         description: response.data.message,
       })

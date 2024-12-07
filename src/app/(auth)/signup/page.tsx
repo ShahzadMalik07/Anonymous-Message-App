@@ -13,6 +13,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
+import Link from "next/link"
 
 
 
@@ -168,6 +169,14 @@ const page = () => {
           </form>
 
         </Form>
+        <div className="text-center mt-4">
+          <p>
+            Already a member?{' '}
+            <Link href="/signin" className="text-blue-600 hover:text-blue-800">
+              Sign in
+            </Link>
+          </p>
+        </div>
 
       </div>
 
