@@ -19,12 +19,6 @@ export async function GET(request: Request) {
 
     }
     const userId = new mongoose.Types.ObjectId(user._id);
-    console.log(userId)
-    const userfind = await UserModel.findById(userId); // Basic query
-    if (!userfind) {
-        throw new Error('User not found');
-    }
-    console.log('User found:', userfind);
 
     try {
         const user = await UserModel.aggregate([

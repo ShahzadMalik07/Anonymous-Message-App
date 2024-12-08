@@ -5,8 +5,9 @@ import { getServerSession, User } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 
 
-export async function DELETE(request: Request, { params }: { params: { messageid: string } }) {
-     const messageId = params.messageid
+export async function DELETE(request: Request, { params }: { params: { messageId: string } }) {
+     const  messageId = params.messageId
+     console.log(messageId)
      await DbConnect()
 
      const session = await getServerSession(authOptions)
@@ -22,7 +23,7 @@ export async function DELETE(request: Request, { params }: { params: { messageid
                { _id: user._id },
                { $pull: { message: { _id: messageId } } }
           )
-          if (updatedResult.modifiedCount == 0) {
+          if (updatedResult.modifiedCount === 0) {
                return Response.json({
                     success: false,
                     message: "Message not found or alreday delete"
