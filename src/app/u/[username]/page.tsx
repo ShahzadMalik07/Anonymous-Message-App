@@ -59,9 +59,11 @@ const page = () => {
     }
 
     const suggestMessages = async () => {
+        setisLoading(true)
         const response = await axios.get("/api/suggest-messages")
         const sepratedText = await response?.data?.split("||")
         setdata(sepratedText)
+        setisLoading(false)
 
 
 
@@ -92,7 +94,7 @@ const page = () => {
                                 )}
                             />
                             <Button type="submit" >
-                                {isLoading ? <><Loader2 /> "Please Wait" </> : "Send Message"}
+                                {isLoading ? <><Loader2 className="mr-1 h-4 w-4 animate-spin" /> Please Wait </> : "Send Message"}
                             </Button>
                         </form>
 
@@ -101,7 +103,7 @@ const page = () => {
             </div>
             <div className="mt-10  h-full w-full flex items-center justify-center">
                 <div className="w-[50%] space-y-5">
-                    <Button onClick={() => { suggestMessages() }}>Suggest Messages</Button>
+                    <Button onClick={() => { suggestMessages }}>{isLoading?<><Loader2 className="mr-1 h-4 w-4 animate-spin"/> please wait</>:"Suggest Messages"}</Button>
                     <h2>Click on any messages below to select it.</h2>
                     <div className="border flex flex-col space-y-6 pb-4">
                         <h1 className="text-xl p-2">Messages</h1>

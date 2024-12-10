@@ -25,13 +25,6 @@ export async function GET(request: Request) {
             },
         })
 
-        // let chunkText;
-        // for await (const chunk of result.stream) {
-        //     let chunkText = chunk.text();
-        //     process.stdout.write(chunkText);
-        //     console.log(chunkText)
-
-        // }
         return new Response(stream, {
             headers: {
                 "Content-Type": "application/octet-stream"
