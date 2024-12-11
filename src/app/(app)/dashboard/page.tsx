@@ -24,6 +24,7 @@ const page = () => {
   const { toast } = useToast()
   const handleDeleteMessage = (messageId: string) => {
     setmessages(messages.filter((msg) => { msg._id !== messageId }))
+    fetchMessages()
   }
 
   const { data: session } = useSession()
