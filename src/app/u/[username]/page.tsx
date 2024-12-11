@@ -18,7 +18,8 @@ const page = () => {
     const { username } = useParams()
     type verifyFormData = z.infer<typeof messageSchema>
     const router = useRouter()
-    const [isLoading, setisLoading] = useState(false)
+    const [isSendLoading, setIsSendLoading] = useState(false); 
+    const [isSuggestLoading, setIsSuggestLoading] = useState(false); 
     const [data, setdata] = useState<string[]>(messages)
 
     const form = useForm<verifyFormData>({
@@ -36,14 +37,14 @@ const page = () => {
     })
 
     const onSubmit = async (data: z.infer<typeof messageSchema>) => {
-        setisLoading(true)
+        setIsSendLoading(true)
         try {
             const response = await axios.post(`/api/send-message/`, { username: username, content: data.content })
             toast({
                 title: "Message Sent",
                 description: response?.data.message
             })
-            router.replace("/dashboard")
+            
 
         } catch (error) {
             console.log(error)
@@ -54,16 +55,16 @@ const page = () => {
             })
 
         } finally {
-            setisLoading(false)
+            setIsSendLoading(false)
         }
     }
 
     const suggestMessages = async () => {
-        setisLoading(true)
+        setIsSuggestLoading(true)
         const response = await axios.get("/api/suggest-messages")
         const sepratedText = await response?.data?.split("||")
         setdata(sepratedText)
-        setisLoading(false)
+        setIsSuggestLoading(false)
 
 
 
@@ -93,8 +94,8 @@ const page = () => {
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" >
-                                {isLoading ? <><Loader2 className="mr-1 h-4 w-4 animate-spin" /> Please Wait </> : "Send Message"}
+                            <Button type="submit" disabled={isSendLoading} >
+                                {isSendLoading ? <><Loader2 className="mr-1 h-4 w-4 animate-spin" /> Please Wait </> : "Send Message"}
                             </Button>
                         </form>
 
@@ -103,7 +104,7 @@ const page = () => {
             </div>
             <div className="mt-10  h-full w-full flex items-center justify-center">
                 <div className="w-[50%] space-y-5">
-                    <Button onClick={() => { suggestMessages }}>{isLoading?<><Loader2 className="mr-1 h-4 w-4 animate-spin"/> please wait</>:"Suggest Messages"}</Button>
+                    <Button disabled={isSuggestLoading} onClick={() => { suggestMessages() }}>{isSuggestLoading?<><Loader2 className="mr-1 h-4 w-4 animate-spin"/> please wait</>:"Suggest Messages"}</Button>
                     <h2>Click on any messages below to select it.</h2>
                     <div className="border flex flex-col space-y-6 pb-4">
                         <h1 className="text-xl p-2">Messages</h1>

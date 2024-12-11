@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
         url.pathname.startsWith("/verify") ||
         url.pathname === '/'
     )) {
-        return NextResponse.redirect(new URL ("/dasboard", request.url))
+        return NextResponse.redirect(new URL ("/dashboard", request.url))
     }
 
     if (!token && (

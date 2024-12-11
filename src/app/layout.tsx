@@ -32,8 +32,9 @@ export default function RootLayout({
       <body
         className={`${geistMono} ${geistSans} antialiased`}
       >
-       
+       <Navbar/>
         {children}
+        
         <Toaster />
       </body>
       </AuthProvider>

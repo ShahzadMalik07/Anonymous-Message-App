@@ -114,6 +114,7 @@ const Page = () => {
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (<>
                 <Loader2 className="mr-4 h-4 w-4 animate-spin" />
+                Plesae wait
 
               </>) : ("Sign-in")}
             </Button>
