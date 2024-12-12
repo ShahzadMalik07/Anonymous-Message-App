@@ -2,7 +2,11 @@ import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import DbConnect from '@/lib/DbConnect';
-import UserModel from '@/Model/User';
+import UserModel, { User } from '@/Model/User';
+import { User as NextAuthUser } from "next-auth";
+
+
+
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,33 +17,48 @@ export const authOptions: NextAuthOptions = {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials: any): Promise<any> {
+
+      async authorize(credentials: Record<"email" | "password", string>): Promise<NextAuthUser | null> {
         await DbConnect();
         try {
-          const user = await UserModel.findOne({
+          const userDoc = await UserModel.findOne({
             $or: [
-              { email: credentials.identifier },
-              { username: credentials.identifier },
+              { email: credentials.email },
+              { username: credentials.email },
             ],
           });
-          if (!user) {
+          if (!userDoc) {
             throw new Error('No user found with this email');
           }
-          if (!user.isVerified) {
+          if (!userDoc.isVerified) {
             throw new Error('Please verify your account before logging in');
           }
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
-            user.password
+            userDoc.password
           );
+
+
+
           if (isPasswordCorrect) {
-            return user;
+            const user: User = userDoc.toObject();
+            return {
+
+              _id: user._id.toString(),
+              id: user._id.toString(),
+              username: user.username,
+              isVerified: user.isVerified,
+              isAcceptingMessages: user.isAcceptingMessages,
+              email : user.email
+
+            } as NextAuthUser
+
           } else {
             throw new Error('Incorrect password');
           }
-          // @typescript-eslint/no-explicit-any
-        } catch (err: any) {
-          throw new Error(err);
+
+        } catch (error) {
+          throw new Error(error);
         }
       },
     }),
@@ -47,10 +66,11 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token._id = user._id?.toString(); // Convert ObjectId to string
+        token._id = user._id
         token.isVerified = user.isVerified;
         token.isAcceptingMessages = user.isAcceptingMessages;
         token.username = user.username;
+        token.email = user.email
       }
       return token;
     },
@@ -60,6 +80,7 @@ export const authOptions: NextAuthOptions = {
         session.user.isVerified = token.isVerified;
         session.user.isAcceptingMessages = token.isAcceptingMessages;
         session.user.username = token.username;
+        session.user.email = token.email
       }
       return session;
     },

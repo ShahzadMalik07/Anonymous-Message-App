@@ -28,7 +28,7 @@ import { useToast } from "@/hooks/use-toast"
 
 type MessageCardProps = {
     message: Message,
-    onMessageDelete: (messageId: string) => void
+    onMessageDelete: (messageid: string) => void
 }
 
 

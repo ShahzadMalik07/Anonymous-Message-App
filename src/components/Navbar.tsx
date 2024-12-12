@@ -9,14 +9,13 @@ const Navbar = () => {
     const { data: session } = useSession()
 
     const user: User = session?.user as User
-
+    
 
     const pathname = usePathname();
-    console.log(pathname)
     if (pathname === "/signin" || pathname === "/signup") {
         return null;
-      }
-    
+    }
+
     return (
         <>
             <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white">

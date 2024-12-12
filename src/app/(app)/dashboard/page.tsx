@@ -22,8 +22,8 @@ const Page = () => {
   const [isSwitchLoading, setisSwitchLoading] = useState(false)
 
   const { toast } = useToast()
-  const handleDeleteMessage = (messageId: string) => {
-    setmessages(messages.filter((msg) => { msg._id !== messageId }))
+  const handleDeleteMessage = (messageid: string) => {
+    setmessages(messages.filter((msg) =>  msg._id !== messageid ))
     fetchMessages()
   }
 
