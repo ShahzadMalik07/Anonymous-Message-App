@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import axios, { AxiosError } from "axios"
 import { signupSchema } from "@/Schemas/signupSchema"
 import { ApiResponse } from "@/types/ApiResponse"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
@@ -17,13 +17,13 @@ import Link from "next/link"
 
 
 
-const page = () => {
+const Page = () => {
   const [username, setusername] = useState("")
   const [usernameMessage, setusernameMessage] = useState("")
   const [usernameLoading, setusernameLoading] = useState(false)
   const [isSubmitting, setisSubmitting] = useState(false)
 
-  const debounced = useDebounceCallback(setusername, 400)
+  const debounced = useDebounceCallback(setusername, 1000)
   const { toast } = useToast()
   const router = useRouter()
 
@@ -38,10 +38,10 @@ const page = () => {
 
   useEffect(() => {
     const checkingUsernameUnique = async () => {
-      if (username) {
+      if (!username) return
         setusernameLoading(true)
         setusernameMessage("")
-      }
+      
       try {
         const response = await axios.get(`/api/check-username-unique?username=${username}`)
         setusernameMessage(response.data.message)
@@ -76,7 +76,7 @@ const page = () => {
     } catch (error) {
       console.error("error in sign up")
       const axiosError = error as AxiosError<ApiResponse>
-      let errorMessage = axiosError.response?.data.message
+      const errorMessage = axiosError.response?.data.message
       toast({
         title: "sign-up Failed",
         description: errorMessage,
@@ -184,4 +184,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

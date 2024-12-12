@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 
-export async function GET(request: Request) {
+export async function GET() {
     const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || "");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -14,7 +14,7 @@ export async function GET(request: Request) {
             start(controller) {
                 (async () => {
                     for await (const chunk of result.stream) {
-                        let chunkText = chunk.text()
+                        const chunkText = chunk.text()
                         controller.enqueue(new TextEncoder().encode(chunkText))
                     }
                     controller.close()

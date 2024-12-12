@@ -1,4 +1,4 @@
-import { useParams } from "next/navigation";
+
 import DbConnect from "@/lib/DbConnect";
 import UserModel from "@/Model/User";
 import { getServerSession, User } from "next-auth";
@@ -7,7 +7,7 @@ import { authOptions } from "../../auth/[...nextauth]/options";
 
 export async function DELETE(request: Request,  context: { params: { messageId: string } }) {
      const { params } = context;
-     const messageId = params.messageId;
+     const messageId =   params.messageId;
      await DbConnect()
 
      const session = await getServerSession(authOptions)
@@ -36,7 +36,7 @@ export async function DELETE(request: Request,  context: { params: { messageId: 
                message: "Message Deleted Successfully"
           }, { status: 200 })
      } catch (error) {
-          console.log("error deleting")
+          console.log("error deleting",error)
           return Response.json({
                success: false,
                message: "Error in Deleting "

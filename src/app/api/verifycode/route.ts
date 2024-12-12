@@ -17,12 +17,12 @@ export async function POST(request: Request) {
         }
 
         const isCodeValid = user?.verifyCode === code
-        // @ts-ignore: Object is possibly 'null'.
+        // "@ts-expect-error"
         const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date()
 
 
         if (isCodeValid && isCodeNotExpired) {
-            // @ts-ignore: Object is possibly 'null'.
+            // "@ts-expect-error"
             user.isVerified = true
             await user?.save()
 
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 
     } catch (error) {
         
-        console.error("Error verifying user ")
+        console.error("Error verifying user", error)
         return Response.json({
             success: false,
             message: "Error verifying user"

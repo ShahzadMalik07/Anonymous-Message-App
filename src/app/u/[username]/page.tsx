@@ -1,23 +1,22 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem,  } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { toast, useToast } from "@/hooks/use-toast"
+import { toast } from "@/hooks/use-toast"
 import { messageSchema } from "@/Schemas/messageSchema"
 import { ApiResponse } from "@/types/ApiResponse"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios, { AxiosError } from "axios"
 import { Loader2 } from "lucide-react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams} from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import messages from "@/defaultMessages.json"
 
-const page = () => {
+const Page = () => {
     const { username } = useParams()
     type verifyFormData = z.infer<typeof messageSchema>
-    const router = useRouter()
     const [isSendLoading, setIsSendLoading] = useState(false); 
     const [isSuggestLoading, setIsSuggestLoading] = useState(false); 
     const [data, setdata] = useState<string[]>(messages)
@@ -26,15 +25,8 @@ const page = () => {
         resolver: zodResolver(messageSchema),
 
     })
-    type FormValues = {
-        message: string;
-    };
-    const { setValue } = useForm<FormValues>({
-        defaultValues: {
-            message: "ehlll", // Initial value for the input field
-        },
-
-    })
+   
+   
 
     const onSubmit = async (data: z.infer<typeof messageSchema>) => {
         setIsSendLoading(true)
@@ -122,4 +114,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

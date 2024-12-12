@@ -1,7 +1,7 @@
 "use client"
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
-import { Mail } from 'lucide-react'
+
 import React from 'react'
 import messages from "@/messages.json"
 import Autoplay from "embla-carousel-autoplay"

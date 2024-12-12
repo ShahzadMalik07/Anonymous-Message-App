@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
 import { verifySchema } from "@/Schemas/verifySchema"
@@ -14,7 +14,7 @@ import * as z from "zod"
 
 
 
-const page = () => {
+const Page = () => {
   const router = useRouter()
   const { toast } = useToast()
   const params = useParams<{ username: string }>()
@@ -90,4 +90,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

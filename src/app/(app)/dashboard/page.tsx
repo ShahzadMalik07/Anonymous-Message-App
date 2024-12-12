@@ -16,7 +16,7 @@ import { useSession } from "next-auth/react"
 import { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 
-const page = () => {
+const Page = () => {
   const [messages, setmessages] = useState<Message[]>([])
   const [isLoading, setisLoading] = useState(false)
   const [isSwitchLoading, setisSwitchLoading] = useState(false)
@@ -181,7 +181,7 @@ const page = () => {
       </Button>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
         {messages.length > 0 ? (
-          messages.map((message, index) => (
+          messages.map((message) => (
             <MessageCard
               key={message._id as string}
               message={message}
@@ -196,4 +196,4 @@ const page = () => {
   );
 }
 
-export default page
+export default Page
