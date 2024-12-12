@@ -9,10 +9,10 @@ const Navbar = () => {
     const { data: session } = useSession()
 
     const user: User = session?.user as User
-    
+    const username = user?.username
 
     const pathname = usePathname();
-    if (pathname === "/signin" || pathname === "/signup") {
+    if (pathname === "/signin" || pathname === "/signup" || pathname ===`/u/${username}`) {
         return null;
     }
 
