@@ -75,8 +75,8 @@ const Page = () => {
     <div className="flex items-center justify-center bg-gary-100 min-h-screen">
       <div className="w-full bg-white max-w-md p-8 space-y-8 rounded-lg shadow-md">
         <div className="text-center">
-          <h1 className="mb-6 text-4xl">Join Random Message</h1>
-          <p className="mb-4" >Sign in for starting your new expirence</p>
+          <h1 className="mb-6 text-3xl">Join Random/Anonymous Messages</h1>
+          <p className="mb-4" >Sign in for starting your new experience</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
