@@ -10,6 +10,8 @@ const Navbar = () => {
 
     const user: User = session?.user as User
     const username = user?.username
+  
+    
 
     const pathname = usePathname();
     if (pathname === "/signin" || pathname === "/signup" || pathname === `/u/${username}`) {
@@ -25,7 +27,7 @@ const Navbar = () => {
                     <div>
                         {session ? (<>
                           
-                            <span className="mr-4" >Welcome {user?.username || user?.email}</span> <Button onClick={() => signOut({ callbackUrl: "/" })} className="w-full md:w-auto bg-slate-100 text-black" variant='outline'>Logout</Button>
+                            <span className="mr-4" >Welcome {user?.username?.split("")[0].toLocaleUpperCase() + username?.slice(1,username?.length) || user?.email}</span> <Button onClick={() => signOut({ callbackUrl: "/" })} className="w-full md:w-auto bg-slate-100 text-black" variant='outline'>Logout</Button>
 
 
                         </>) :
